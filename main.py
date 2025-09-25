@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, colorchooser, filedialog  
 import qrcode
 from PIL import Image, ImageTk
+import os
 
 logo_path = None  
 
@@ -34,7 +35,9 @@ def generate_qr():
         except Exception as e:
             messagebox.showerror("Logo Error", f"Could not add logo:\n{e}")
 
-    img.save("qrcode.png")
+    output_folder = "qrcodes"
+    os.makedirs(output_folder, exist_ok=True)
+    img.save(os.path.join(output_folder, "qrcode.png"))
     img = img.resize((200, 200))
     tk_img = ImageTk.PhotoImage(img)
     qr_label.config(image=tk_img)
@@ -42,6 +45,7 @@ def generate_qr():
 
 root = tk.Tk()
 root.title("QR Code Generator")
+root.iconbitmap("icon.ico") 
 
 title_label = tk.Label(root, text="QR Code Generator", font=("Arial", 20, "bold"))
 title_label.pack(pady=15)
